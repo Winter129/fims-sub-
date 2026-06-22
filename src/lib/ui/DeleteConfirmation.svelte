@@ -1,0 +1,22 @@
+<script>
+    const { onDelete, onCancel, text, confirmText = 'Delete', cancelText = 'Cancel' } = $props();
+</script>
+
+<div
+    class="fixed top-0 left-0 z-100 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.9)] px-4"
+>
+    <div class="w-[90%] max-w-150 rounded-2xl bg-fims-beige px-10 py-15 text-center">
+        <p class="mb-7.5 text-black">{text}</p>
+
+        <div class="flex justify-around gap-5">
+            <button
+                class="cursor-pointer rounded-3xl border-2 border-solid border-fims-green px-7.5 py-2.5 text-base text-fims-green transition-opacity duration-200 hover:opacity-70"
+                onclick={onCancel}>{cancelText}</button
+            >
+            <button
+                class="cursor-pointer rounded-3xl border-2 border-solid border-fims-red px-7.5 py-2.5 text-base text-fims-red transition-opacity duration-200 hover:opacity-70"
+                onclick={onDelete}>{confirmText}</button
+            >
+        </div>
+    </div>
+</div>

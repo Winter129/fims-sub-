@@ -1,0 +1,542 @@
+import { sql } from 'drizzle-orm';
+
+import { ADMIN_EMAIL, ADMIN_PASS, IT_EMAIL, IT_PASS } from '$env/static/private';
+import { auth } from '$lib/server/auth';
+import { refreshAccountSearchView } from '$lib/server/queries/account-list';
+
+import {
+    adminPosition,
+    appointmentStatus,
+    course,
+    degreeProgram,
+    fieldOfInterest,
+    office,
+    profileInfo,
+    rank,
+    research,
+    role,
+    status,
+} from './schema';
+import { db } from './index';
+
+export const appointmentStatuses = [
+    { appointmentStatus: 'Permanent' },
+    { appointmentStatus: 'Full-Time' },
+    { appointmentStatus: 'Temporary' },
+    { appointmentStatus: 'Part-Time' },
+];
+
+export const degreePrograms = [
+    {
+        id: 1,
+        name: 'Undergraduate',
+        isGraduateLevel: false,
+    },
+    {
+        id: 2,
+        name: 'MA/PhD',
+        isGraduateLevel: true,
+    },
+    {
+        id: 3,
+        name: 'MDE',
+        isGraduateLevel: true,
+    },
+];
+
+export const ranks = [
+    {
+        id: 1,
+        title: 'Instructor 1',
+        salaryGrade: '14-1',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 2,
+        title: 'Instructor 2',
+        salaryGrade: '15-1',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 3,
+        title: 'Instructor 3',
+        salaryGrade: '15-3',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 4,
+        title: 'Instructor 4',
+        salaryGrade: '16-1',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 5,
+        title: 'Instructor 5',
+        salaryGrade: '16-3',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 6,
+        title: 'Instructor 6',
+        salaryGrade: '17-1',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 7,
+        title: 'Instructor 7',
+        salaryGrade: '17-3',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 8,
+        title: 'Assistant Professor 1',
+        salaryGrade: '18-1',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 9,
+        title: 'Assistant Professor 2',
+        salaryGrade: '19-1',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 10,
+        title: 'Assistant Professor 3',
+        salaryGrade: '19-3',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 11,
+        title: 'Assistant Professor 4',
+        salaryGrade: '20-1',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 12,
+        title: 'Assistant Professor 5',
+        salaryGrade: '21-1',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 13,
+        title: 'Assistant Professor 6',
+        salaryGrade: '21-3',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 14,
+        title: 'Assistant Professor 7',
+        salaryGrade: '21-5',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 15,
+        title: 'Associate Professor 1',
+        salaryGrade: '22-4',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 16,
+        title: 'Associate Professor 2',
+        salaryGrade: '22-5',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 17,
+        title: 'Associate Professor 3',
+        salaryGrade: '23-4',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 18,
+        title: 'Associate Professor 4',
+        salaryGrade: '24-3',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 19,
+        title: 'Associate Professor 5',
+        salaryGrade: '25-2',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 20,
+        title: 'Associate Professor 6',
+        salaryGrade: '25-3',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 21,
+        title: 'Associate Professor 7',
+        salaryGrade: '25-5',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 22,
+        title: 'Professor 1',
+        salaryGrade: '26-4',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 23,
+        title: 'Professor 2',
+        salaryGrade: '26-5',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 24,
+        title: 'Professor 3',
+        salaryGrade: '26-6',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 25,
+        title: 'Professor 4',
+        salaryGrade: '27-5',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 26,
+        title: 'Professor 5',
+        salaryGrade: '27-6',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 27,
+        title: 'Professor 6',
+        salaryGrade: '27-7',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 28,
+        title: 'Professor 7',
+        salaryGrade: '28-6',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 29,
+        title: 'Professor 8',
+        salaryGrade: '28-7',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 30,
+        title: 'Professor 9',
+        salaryGrade: '28-8',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 31,
+        title: 'Professor 10',
+        salaryGrade: '29-7',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 32,
+        title: 'Professor 11',
+        salaryGrade: '29-8',
+        salaryRate: '500000.00',
+    },
+    {
+        id: 33,
+        title: 'Professor 12',
+        salaryGrade: '29-8',
+        salaryRate: '500000.00',
+    },
+];
+
+export const roles = [
+    {
+        role: 'Admin',
+        canAddFaculty: true,
+        canModifyFaculty: true,
+        canAddAccount: false,
+        canModifyAccount: false,
+        canViewChangelogs: false,
+    },
+    {
+        role: 'IT',
+        canAddFaculty: true,
+        canModifyFaculty: true,
+        canAddAccount: true,
+        canModifyAccount: true,
+        canViewChangelogs: true,
+    },
+];
+
+export const statuses = [
+    { status: 'Active' },
+    { status: 'On Leave' },
+    { status: 'Sabbatical' },
+    { status: 'On Secondment' },
+];
+
+export const adminPositions = [
+    { title: 'Department Chair' },
+    { title: 'Assistant Chair for Student Affairs' },
+    { title: 'Assistant Chair for Linkages and Partnerships' },
+];
+
+export const courses = [
+    {
+        name: 'Econ 11',
+        units: 3,
+        degreeProgramId: 1,
+    },
+    {
+        name: 'CS 11',
+        units: 3,
+        degreeProgramId: 1,
+    },
+    {
+        name: 'CS 12',
+        units: 3,
+        degreeProgramId: 1,
+    },
+    {
+        name: 'CS 32',
+        units: 3,
+        degreeProgramId: 1,
+    },
+    {
+        name: 'CS 33',
+        units: 3,
+        degreeProgramId: 1,
+    },
+    {
+        name: 'CS 191',
+        units: 3,
+        degreeProgramId: 1,
+    },
+    {
+        name: 'CS 192',
+        units: 3,
+        degreeProgramId: 1,
+    },
+    {
+        name: 'CS 195',
+        units: 3,
+        degreeProgramId: 1,
+    },
+    {
+        name: 'CS 200',
+        units: 3,
+        degreeProgramId: 2,
+    },
+    {
+        name: 'CS 211',
+        units: 3,
+        degreeProgramId: 2,
+    },
+    {
+        name: 'DE 100',
+        units: 3,
+        degreeProgramId: 3,
+    },
+    {
+        name: 'DE 236',
+        units: 3,
+        degreeProgramId: 3,
+    },
+];
+
+export const fieldsOfInterest = [
+    { field: 'Software Engineering' },
+    { field: 'Data Science' },
+    { field: 'Artificial Intelligence' },
+    { field: 'Cybersecurity' },
+    { field: 'Information Systems' },
+];
+
+export const offices = [
+    { name: 'Department of Computer Science' },
+    { name: 'College of Engineering' },
+    { name: 'Office of the Vice Chancellor for Student Affairs' },
+];
+
+export const researches = [
+    {
+        title: 'Project BUHAY',
+        startDate: new Date('2020-12-25'),
+        endDate: new Date('2021-03-12'),
+        funding: null,
+    },
+    {
+        title: 'Project NOAH',
+        startDate: new Date('2023-08-23'),
+        endDate: new Date('2025-04-09'),
+        funding: null,
+    },
+];
+
+async function seedAppointmentStatusTable() {
+    const rows = await db.select().from(appointmentStatus).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(appointmentStatus).values(appointmentStatuses).returning();
+    return { success: response.length === appointmentStatuses.length };
+}
+
+async function seedDegreeProgramTable() {
+    // Don't proceed if table is already seeded
+    const rows = await db.select().from(degreeProgram).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(degreeProgram).values(degreePrograms).returning();
+
+    // Check response
+    return { success: response.length === degreePrograms.length };
+}
+
+async function seedRankTable() {
+    // Don't proceed if table is already seeded
+    const rows = await db.select().from(rank).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(rank).values(ranks).returning();
+
+    // Check response
+    return { success: response.length === ranks.length };
+}
+
+async function seedRoleTable() {
+    // Don't proceed if table is already seeded
+    const rows = await db.select().from(role).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(role).values(roles).returning();
+
+    // Check response
+    return { success: response.length === roles.length };
+}
+
+async function seedStatusTable() {
+    // Don't proceed if table is already seeded
+    const rows = await db.select().from(status).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(status).values(statuses).returning();
+
+    // Check response
+    return { success: response.length === statuses.length };
+}
+
+async function seedAdminPositionTable() {
+    // Don't proceed if table is already seeded
+    const rows = await db.select().from(adminPosition).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(adminPosition).values(adminPositions).returning();
+
+    // Check response
+    return { success: response.length === adminPositions.length };
+}
+
+async function seedCourseTable() {
+    // Don't proceed if table is already seeded
+    const rows = await db.select().from(course).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(course).values(courses).returning();
+
+    // Check response
+    return { success: response.length === courses.length };
+}
+
+async function seedFieldOfInterestTable() {
+    const rows = await db.select().from(fieldOfInterest).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(fieldOfInterest).values(fieldsOfInterest).returning();
+    return { success: response.length === fieldsOfInterest.length };
+}
+
+async function seedOfficeTable() {
+    // Don't proceed if table is already seeded
+    const rows = await db.select().from(office).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(office).values(offices).returning();
+
+    // Check response
+    return { success: response.length === offices.length };
+}
+
+async function seedResearchTable() {
+    // Don't proceed if table is already seeded
+    const rows = await db.select().from(research).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const response = await db.insert(research).values(researches).returning();
+
+    // Check response
+    return { success: response.length === researches.length };
+}
+
+async function seedDummyProfiles() {
+    // Don't proceed if table is already seeded
+    const rows = await db.select().from(profileInfo).limit(1);
+    if (rows.length > 0) return { success: true };
+
+    const { user: adminUser } = await auth.api.createUser({
+        body: {
+            email: ADMIN_EMAIL,
+            password: ADMIN_PASS,
+            name: 'Admin',
+            role: 'user',
+        },
+    });
+    const { user: itUser } = await auth.api.createUser({
+        body: {
+            email: IT_EMAIL,
+            password: IT_PASS,
+            name: 'IT',
+            role: 'admin',
+        },
+    });
+
+    await Promise.all([
+        await db
+            .insert(profileInfo)
+            .values({
+                profileId: adminUser.id,
+                role: 'Admin',
+            })
+            .returning(),
+        await db
+            .insert(profileInfo)
+            .values({
+                profileId: itUser.id,
+                role: 'IT',
+            })
+            .returning(),
+    ]);
+
+    await refreshAccountSearchView();
+}
+
+export async function seedDatabase() {
+    // Enable pg_trgm extension
+    await db.execute(sql`CREATE EXTENSION IF NOT EXISTS pg_trgm;`);
+
+    // Insert into the most likely constant tables
+    await Promise.all([
+        await seedAppointmentStatusTable(), // appointment status
+        await seedDegreeProgramTable(), // degree program
+        await seedRankTable(), // rank
+        await seedRoleTable(), // role
+        await seedStatusTable(), // status
+    ]);
+
+    // Insert the dummy data tables
+    await Promise.all([
+        await seedAdminPositionTable(), // administrative position
+        await seedCourseTable(), // course
+        await seedFieldOfInterestTable(), // field of interest
+        await seedOfficeTable(), // office
+        await seedResearchTable(), // research
+        await seedDummyProfiles(), // accounts
+    ]);
+}
+
+await seedDatabase();
