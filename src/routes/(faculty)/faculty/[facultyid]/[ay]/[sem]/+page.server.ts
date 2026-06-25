@@ -171,7 +171,7 @@ export const actions = {
             semNum,
         );
         await refreshFacultyRecordSearchView();
-        if (success) redirect(308, `/${facultyid}/profile`);
+        if (success) redirect(308, `/faculty/${facultyid}/profile`);
         return fail(500, { error: 'Failed to delete record.' });
     },
 

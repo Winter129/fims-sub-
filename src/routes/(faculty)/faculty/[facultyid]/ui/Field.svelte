@@ -278,11 +278,11 @@
 </script>
 
 <label
-    class="flex w-full items-center justify-end {colStartClass} {colSpanClass} hidden flex-col"
+    class="flex w-full flex-col gap-2 {colStartClass} {colSpanClass} hidden px-2 sm:flex-row sm:items-center sm:justify-end"
     bind:this={domContainer}
 >
-    <div class="flex w-full items-center justify-end">
-        <span class="mr-2 w-fit text-right">
+    <div class="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+        <span class="w-full text-left text-sm font-medium sm:mr-2 sm:w-fit sm:text-right">
             {label}
 
             {#if required && viewState.isEditing}
@@ -293,7 +293,7 @@
         {#if type === 'dropdown'}
             <select
                 {name}
-                class="h-8 w-45 rounded-sm border-0 bg-white p-1 text-black focus:ring-0 disabled:text-black 2xl:w-75 {validationError
+                class="h-8 w-full rounded-sm border-0 bg-white p-1 text-black focus:ring-0 disabled:text-black sm:max-w-44 md:max-w-56 lg:max-w-64 xl:max-w-80 {validationError
                     ? 'border-2 border-fims-red'
                     : ''}"
                 disabled={!viewState.isEditing || isLocked}
@@ -313,7 +313,7 @@
             <input
                 type="date"
                 {name}
-                class="h-8 w-45 rounded-sm border-0 bg-white p-1 placeholder-fims-gray focus:ring-0 2xl:w-75 {validationError
+                class="h-8 w-full rounded-sm border-0 bg-white p-1 placeholder-fims-gray focus:ring-0 sm:max-w-44 md:max-w-56 lg:max-w-64 xl:max-w-80 {validationError
                     ? 'border-2 border-fims-red'
                     : ''}"
                 placeholder="-"
@@ -330,7 +330,7 @@
             <input
                 type={type ?? 'text'}
                 {name}
-                class="h-8 w-45 rounded-sm border-0 bg-white p-1 placeholder-fims-gray focus:ring-0 2xl:w-75 {validationError
+                class="h-8 w-full rounded-sm border-0 bg-white p-1 placeholder-fims-gray focus:ring-0 sm:max-w-44 md:max-w-56 lg:max-w-64 xl:max-w-80 {validationError
                     ? 'border-2 border-fims-red'
                     : ''}"
                 placeholder={formatHint || '-'}

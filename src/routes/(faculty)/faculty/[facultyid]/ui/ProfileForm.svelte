@@ -336,7 +336,7 @@
     </div>
 
     <div>
-        <div class="mt-4 grid w-full grid-cols-4">
+        <div class="mt-4 grid w-full grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <Field
                 label="Last Name"
                 name="last-name"
@@ -365,7 +365,7 @@
                 bind:hasChange={basicHaveChanges[3]}
             />
         </div>
-        <div class="mt-4 grid w-full grid-cols-4">
+        <div class="mt-4 grid w-full grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <Field
                 label="Birth Date"
                 name="birth-date"
@@ -393,7 +393,7 @@
             />
         </div>
 
-        <div class="mt-4 grid w-full grid-cols-4">
+        <div class="mt-4 grid w-full grid-cols-1 gap-4 xl:grid-cols-4">
             <InputTable
                 tableName="emails"
                 rowLabel="Email"
@@ -422,7 +422,7 @@
         </div>
 
         <p class="mt-4 px-4 font-semibold">Educational Attainment</p>
-        <div class="mt-4 grid w-full grid-cols-4">
+        <div class="mt-4 grid w-full grid-cols-1 gap-4 xl:grid-cols-4">
             <InputTable
                 tableName="educational-attainments"
                 rowLabel="Educational Attainment"
@@ -442,7 +442,7 @@
             />
         </div>
 
-        <div class="mt-4 grid w-full grid-cols-4">
+        <div class="mt-4 grid w-full grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <Field
                 label="PhilHealth No."
                 name="philhealth"
@@ -468,7 +468,7 @@
                 bind:hasChange={basicHaveChanges[9]}
             />
         </div>
-        <div class="mt-4 grid w-full grid-cols-4">
+        <div class="mt-4 grid w-full grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <Field
                 label="TIN"
                 name="tin"
@@ -494,7 +494,7 @@
                 bind:hasChange={basicHaveChanges[12]}
             />
         </div>
-        <div class="mt-4 grid w-full grid-cols-4">
+        <div class="mt-4 grid w-full grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <Field
                 label="Status"
                 name="status"
@@ -515,16 +515,18 @@
         </div>
 
         <p class="mt-6 px-4 font-semibold">Promotion History</p>
-        <div class="mt-4 grid w-full grid-cols-11">
-            <InputTable
-                tableName="promotion-history"
-                rowLabel="Promotion"
-                columns={promotionHistoryColumns}
-                rows={promotionHistoryValues ?? []}
-                numOfColumns={9}
-                colSpan={9}
-                bind:hasChange={haveChanges[5]}
-            />
+        <div class="mt-4 overflow-x-auto">
+            <div class="grid min-w-[52rem] w-full grid-cols-11">
+                <InputTable
+                    tableName="promotion-history"
+                    rowLabel="Promotion"
+                    columns={promotionHistoryColumns}
+                    rows={promotionHistoryValues ?? []}
+                    numOfColumns={9}
+                    colSpan={9}
+                    bind:hasChange={haveChanges[5]}
+                />
+            </div>
         </div>
 
         <div class="mt-8.5">

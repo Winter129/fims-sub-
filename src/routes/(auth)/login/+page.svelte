@@ -83,16 +83,13 @@
                     {/if}
                 </button>
             </div>
-        </form>
-
-        <!-- Google SSO -->
-        <form method="POST" action="?/signInSocial">
             <button
-                class="h-12 w-47 rounded-lg border-0 bg-[#e9e9e9]"
-                name="provider"
-                value="google"
-                type="submit">Sign in with Google</button
+                class="mt-6 h-12 w-47 rounded-lg border-0 bg-[#e9e9e9]"
+                type="submit"
+                disabled={isSigningIn}
             >
+                Sign in
+            </button>
         </form>
     </div>
 </div>

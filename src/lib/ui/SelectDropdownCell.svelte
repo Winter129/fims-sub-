@@ -69,14 +69,14 @@
     });
 </script>
 
-<div class="relative h-full w-full" bind:this={containerRef}>
+<div class="relative h-full w-full min-w-0" bind:this={containerRef}>
     {#if isEditable}
         {#if isCombobox}
-            <div class="relative flex h-full w-full items-center">
+            <div class="relative flex h-full w-full items-center overflow-hidden">
                 <input
                     type="text"
                     data-testid={`${name}-combobox`}
-                    class="h-full w-full border-0 bg-transparent px-0 pl-1 focus:ring-0"
+                    class="h-full w-full border-0 bg-transparent px-1 text-left focus:ring-0"
                     bind:value={selectedOpt}
                     placeholder={defaultSelectedOpt !== '-' ? defaultSelectedOpt : ''}
                     onclick={() => (isDropdownOpen = true)}
@@ -98,12 +98,12 @@
             <button
                 type="button"
                 data-testid={name}
-                class="relative h-full w-full"
+                class="relative flex h-full w-full items-center justify-between overflow-hidden px-1 text-left"
                 onclick={() => {
                     if (isEditable) isDropdownOpen = !isDropdownOpen;
                 }}
             >
-                <span>{selectedOpt ? selectedOpt : defaultSelectedOpt}</span>
+                <span class="truncate">{selectedOpt ? selectedOpt : defaultSelectedOpt}</span>
                 <Icon
                     icon={isDropdownOpen ? 'tabler:chevron-up' : 'tabler:chevron-down'}
                     class="absolute top-0 right-5 h-full w-4"
@@ -111,8 +111,8 @@
             </button>
         {/if}
     {:else}
-        <div class="flex h-full items-center justify-center">
-            <span>{selectedOpt ? selectedOpt : defaultSelectedOpt}</span>
+        <div class="flex h-full items-center justify-center px-1">
+            <span class="truncate">{selectedOpt ? selectedOpt : defaultSelectedOpt}</span>
         </div>
     {/if}
 

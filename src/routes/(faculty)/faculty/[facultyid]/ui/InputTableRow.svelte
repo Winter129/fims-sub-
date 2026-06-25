@@ -104,7 +104,7 @@
     // col-span-10
 </script>
 
-<div class="relative grid {gridTemplateColumns}" data-testid="list-table-input">
+<div class="relative grid items-stretch {gridTemplateColumns}" data-testid="list-table-input">
     {#each row as { columnNum, defaultValue, defaultChecked } (columnNum)}
         {@const colSpanClass = `col-span-${columns[columnNum].colSpan}`}
         {@const { type } = columns[columnNum]}
@@ -122,9 +122,9 @@
 
         {#if type === 'dropdown' && opts !== undefined && !(defaultValue instanceof Date)}
             <div
-                class="{colSpanClass} h-8 bg-white {isDeleted
+                class="{colSpanClass} flex min-h-12 min-w-0 items-center bg-white px-2 py-2 {isDeleted
                     ? 'text-fims-gray'
-                    : ''} flex items-center"
+                    : ''}"
             >
                 <SelectDropdownCell
                     {name}
@@ -142,7 +142,7 @@
                 />
             </div>
         {:else if type === 'expandable' && !(defaultValue instanceof Date)}
-            <div class={colSpanClass}>
+            <div class="min-h-12 {colSpanClass}">
                 <ExpandableCell
                     {name}
                     defaultValue={defaultValue as string}
@@ -155,18 +155,18 @@
             </div>
         {:else if type === 'dependent' && dependencyMap !== undefined}
             <div
-                class="h-full w-full {colSpanClass} flex items-center justify-center bg-white {isDeleted
+                class="h-full w-full {colSpanClass} flex min-h-12 items-center justify-center bg-white px-2 py-2 {isDeleted
                     ? 'text-fims-gray'
                     : 'text-black'}"
             >
-                <span
+                <span class="break-words text-center"
                     >{dependentOnValue === undefined || dependentOnValue === ''
                         ? ''
                         : dependencyMap.get(dependentOnValue as string)}</span
                 >
             </div>
         {:else if type === 'checkbox'}
-            <div class="{colSpanClass} flex h-8 w-full items-center justify-center bg-white py-0">
+            <div class="{colSpanClass} flex min-h-12 w-full items-center justify-center bg-white px-2 py-2">
                 <input
                     type="checkbox"
                     {name}
@@ -184,9 +184,9 @@
             </div>
         {:else if type === 'datalist' && opts !== undefined && !(defaultValue instanceof Date)}
             <div
-                class="{colSpanClass} h-8 bg-white {isDeleted
+                class="{colSpanClass} flex min-h-12 min-w-0 items-center bg-white px-2 py-2 {isDeleted
                     ? 'text-fims-gray'
-                    : ''} flex items-center"
+                    : ''}"
             >
                 <SelectDropdownCell
                     {name}
@@ -212,9 +212,9 @@
                 step={type === 'number' && columns[columnNum].name === 'course-section-set'
                     ? 'any'
                     : null}
-                class="{colSpanClass} h-8 w-full border-0 focus:ring-0 {isDeleted
+                class="{colSpanClass} min-h-12 w-full border-0 bg-white px-2 py-2 focus:ring-0 {isDeleted
                     ? 'text-fims-gray'
-                    : ''} py-0"
+                    : ''}"
                 disabled={!viewState.isEditing ||
                     (isImmutable && formattedDefault !== '') ||
                     isDeleted}

@@ -114,17 +114,17 @@
 </script>
 
 <div
-    class="px-4 {colStartClass} {colSpanClass} hidden"
+    class="w-full overflow-x-auto px-2 {colStartClass} {colSpanClass} hidden"
     bind:this={domContainer}
     data-testid="list-table"
 >
-    <div class="grid {gridTemplateColumns}">
+    <div class="grid min-w-[18rem] {gridTemplateColumns}">
         {#each columns as { label, colSpan: cellColSpan } (label)}
             {@const cellColSpanClass = `col-span-${cellColSpan}`}
             <div
-                class="h-8 bg-fims-green text-white {cellColSpanClass} flex items-center justify-center"
+                class="{cellColSpanClass} flex min-h-12 items-center justify-center bg-fims-green px-2 py-2 text-center text-sm font-semibold leading-tight text-white"
             >
-                <span class="text-center font-semibold">{label}</span>
+                <span class="break-words">{label}</span>
             </div>
         {/each}
     </div>
